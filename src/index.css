@@ -4,9 +4,18 @@
 	background-color: #242424;
 }
 
+#root {
+	padding: 40px;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
 a {
 	font-weight: 500;
-	color: #646cff;
+	color: #c2c5fc;
 	text-decoration: none;
 }
 a:hover {

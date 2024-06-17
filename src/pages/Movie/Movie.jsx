@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "../../movies-api";
-import HomeList from "../../components/HomeList/HomeList";
+import { useParams } from "react-router-dom";
 import { Vortex } from "react-loader-spinner";
 
-import css from "./HomePage.module.css";
+import css from "./Movie.module.css";
 
-export default function HomePage() {
+export default function Movie() {
 	const [movies, setMovies] = useState([]);
 	const [loading, setLoading] = useState(false);
+
+	const { moviesId } = useParams();
+
+	const url = `https://api.themoviedb.org/3/movie/${moviesId}?language=en-US`;
 
 	useEffect(() => {
 		async function fetchMovies() {
 			try {
 				// setIsError(false);
 				setLoading(true);
-				const data = await getMovies();
-				setMovies(data.results);
+				const data = await getMovies(url);
+				setMovies(data);
+				console.log(data);
 			} catch {
 				console.log("Error");
 			} finally {
@@ -26,9 +31,10 @@ export default function HomePage() {
 		fetchMovies();
 	}, []);
 
+	const releaseDate = movies.release_date.substr(0, 4);
+
 	return (
 		<>
-			<h1 className={css.h1}>Trending today</h1>
 			{loading && (
 				<Vortex
 					visible={true}
@@ -40,7 +46,15 @@ export default function HomePage() {
 					colors={["red", "green", "blue", "yellow", "orange", "purple"]}
 				/>
 			)}
-			{movies.length > 0 && <HomeList movies={movies} />}
+			<div className={css.wrapper}>
+				<img
+					src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
+					alt={`${movies.original_title} poster.`}
+				/>
+				<div className={css.wrapperInfo}>
+					<h2 className={css.title}>{movies.original_title} (releaseDate)</h2>
+				</div>
+			</div>
 		</>
 	);
 }

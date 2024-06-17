@@ -1,0 +1,12 @@
+.list {
+	padding: 0;
+	padding-left: 40px;
+}
+
+.item {
+	margin-bottom: 10px;
+}
+
+.item::marker {
+	color: #fff;
+}

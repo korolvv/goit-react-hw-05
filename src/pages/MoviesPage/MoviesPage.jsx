@@ -1,3 +1,7 @@
 export default function MoviesPage() {
-	return <>Movies!</>;
+	return (
+		<>
+			<h1>Movies!</h1>
+		</>
+	);
 }
