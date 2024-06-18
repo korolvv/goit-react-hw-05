@@ -15,6 +15,5 @@ export const getMovies = async (url) => {
 		options.url = url;
 	}
 	const response = await axios.request(options);
-	console.log(response.data);
 	return response.data;
 };

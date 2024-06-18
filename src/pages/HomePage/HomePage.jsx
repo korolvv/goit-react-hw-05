@@ -12,7 +12,6 @@ export default function HomePage() {
 	useEffect(() => {
 		async function fetchMovies() {
 			try {
-				// setIsError(false);
 				setLoading(true);
 				const data = await getMovies();
 				setMovies(data.results);
