@@ -3,7 +3,7 @@ import { getMovies } from "../../movies-api";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { Vortex } from "react-loader-spinner";
 
-import css from "./Movie.module.css";
+import css from "./MoviesDetailsPage.module.css";
 import { useRef } from "react";
 
 export default function Movie() {

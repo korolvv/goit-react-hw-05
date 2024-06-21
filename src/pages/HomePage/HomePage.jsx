@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "../../movies-api";
-import HomeList from "../../components/HomeList/HomeList";
+import MoviesList from "../../components/MoviesList/MoviesList";
 import { Vortex } from "react-loader-spinner";
 
 import css from "./HomePage.module.css";
@@ -39,7 +39,7 @@ export default function HomePage() {
 					colors={["red", "green", "blue", "yellow", "orange", "purple"]}
 				/>
 			)}
-			{movies.length > 0 && <HomeList movies={movies} />}
+			{movies.length > 0 && <MoviesList movies={movies} />}
 		</>
 	);
 }

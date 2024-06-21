@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import css from "./HomeList.module.css";
+import css from "./MoviesList.module.css";
 
 export default function HomeList({ movies }) {
 	return (

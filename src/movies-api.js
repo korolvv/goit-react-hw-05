@@ -17,3 +17,16 @@ export const getMovies = async (url) => {
 	const response = await axios.request(options);
 	return response.data;
 };
+
+export const searchMovies = async (url, request) => {
+	if (request) {
+		options.url = url;
+		options.params = {
+			query: request,
+			include_adult: false,
+			language: "en-US",
+		};
+		const response = await axios.request(options);
+		return response.data;
+	}
+};
