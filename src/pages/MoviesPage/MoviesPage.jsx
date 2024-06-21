@@ -1,13 +1,14 @@
 import { searchMovies } from "../../movies-api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import css from "./MoviesPage.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import MoviesList from "../../components/MoviesList/MoviesList";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 export default function SearchPage() {
-	// const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
+	const [error, setError] = useState(false);
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -15,29 +16,24 @@ export default function SearchPage() {
 
 	const query = searchParams.get("query") ?? "";
 
-	useEffect(() => {
-		handleSubmit();
-	}, []);
-
 	const handleSubmit = (values, actions) => {
 		if (values) {
 			searchParams.set("query", values.request);
-			setSearchParams(searchParams);
 			actions.resetForm();
+		} else if (query === "") {
+			searchParams.delete("query");
 		} else {
 			searchParams.set("query", query);
 		}
-		// setSearchParams(searchParams);
+		setSearchParams(searchParams);
 		async function fetchMovies() {
 			try {
-				// setIsError(false);
-				// setLoading(true);
+				setError(false);
 				const data = await searchMovies(url, searchParams.get("query"));
 				setData(data.results);
 			} catch {
 				console.log("Error");
-			} finally {
-				// setLoading(false);
+				setError(true);
 			}
 		}
 		fetchMovies();
@@ -45,17 +41,27 @@ export default function SearchPage() {
 
 	return (
 		<>
-			<Formik initialValues={{ request: "" }} onSubmit={handleSubmit}>
-				<Form className={css.form}>
-					<Field type="text" className={css.input} name="request"></Field>
-					<ErrorMessage className={css.error} name="name" component="span" />
+			{error ? (
+				<NotFoundPage />
+			) : (
+				<>
+					<Formik initialValues={{ request: "" }} onSubmit={handleSubmit}>
+						<Form className={css.form}>
+							<Field type="text" className={css.input} name="request"></Field>
+							<ErrorMessage
+								className={css.error}
+								name="name"
+								component="span"
+							/>
 
-					<button type="submit" className={css.btn}>
-						Submit
-					</button>
-				</Form>
-			</Formik>
-			{data.length > 0 && <MoviesList movies={data} />}
+							<button type="submit" className={css.btn}>
+								Submit
+							</button>
+						</Form>
+					</Formik>
+					{data.length > 0 && <MoviesList movies={data} />}
+				</>
+			)}
 		</>
 	);
 }
