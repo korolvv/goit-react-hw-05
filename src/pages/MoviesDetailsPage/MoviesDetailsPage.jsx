@@ -48,7 +48,7 @@ export default function Movie() {
 		}
 
 		fetchMovies();
-	}, []);
+	});
 
 	const getGenres = (data) => {
 		let arr = [];

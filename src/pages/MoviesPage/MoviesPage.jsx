@@ -1,7 +1,7 @@
 import { searchMovies } from "../../movies-api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import css from "./MoviesPage.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import MoviesList from "../../components/MoviesList/MoviesList";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -16,20 +16,14 @@ export default function SearchPage() {
 
 	const query = searchParams.get("query") ?? "";
 
-	const handleSubmit = (values, actions) => {
-		if (values) {
-			searchParams.set("query", values.request);
-			actions.resetForm();
-		} else if (query === "") {
-			searchParams.delete("query");
-		} else {
-			searchParams.set("query", query);
+	useEffect(() => {
+		if (query === "") {
+			return;
 		}
-		setSearchParams(searchParams);
 		async function fetchMovies() {
 			try {
 				setError(false);
-				const data = await searchMovies(url, searchParams.get("query"));
+				const data = await searchMovies(url, query);
 				setData(data.results);
 			} catch {
 				console.log("Error");
@@ -37,6 +31,14 @@ export default function SearchPage() {
 			}
 		}
 		fetchMovies();
+	}, [query]);
+
+	const handleSubmit = (values, actions) => {
+		if (values.request !== "") {
+			searchParams.set("query", values.request);
+			setSearchParams(searchParams);
+			actions.resetForm();
+		}
 	};
 
 	return (
