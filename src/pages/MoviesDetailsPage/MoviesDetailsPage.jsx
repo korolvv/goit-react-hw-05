@@ -38,7 +38,6 @@ export default function Movie() {
 				dateRelease.current = `(${data.release_date.substring(0, 4)})`;
 				userScore.current = `User score: ${data.vote_average * 10}%`;
 				genres.current = getGenres(data);
-				console.log(movies.poster_path);
 			} catch {
 				console.log("Error");
 				setError(true);
