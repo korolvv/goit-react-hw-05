@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMovies } from "../../movies-api";
+import { getTrends } from "../../movies-api";
 import MoviesList from "../../components/MoviesList/MoviesList";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -11,7 +11,7 @@ export default function HomePage() {
 		async function fetchMovies() {
 			try {
 				setError(false);
-				const data = await getMovies();
+				const data = await getTrends();
 				setMovies(data.results);
 			} catch (error) {
 				setError(true);

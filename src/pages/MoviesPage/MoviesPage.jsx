@@ -1,4 +1,4 @@
-import { searchMovies } from "../../movies-api";
+import { getMoviesByQuery } from "../../movies-api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import css from "./MoviesPage.module.css";
 import { useEffect, useState } from "react";
@@ -12,8 +12,6 @@ export default function SearchPage() {
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	const url = "https://api.themoviedb.org/3/search/movie";
-
 	const query = searchParams.get("query") ?? "";
 
 	useEffect(() => {
@@ -23,7 +21,7 @@ export default function SearchPage() {
 		async function fetchMovies() {
 			try {
 				setError(false);
-				const data = await searchMovies(url, query);
+				const data = await getMoviesByQuery(query);
 				setData(data.results);
 			} catch {
 				console.log("Error");

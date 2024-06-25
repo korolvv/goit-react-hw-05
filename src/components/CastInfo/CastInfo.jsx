@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Vortex } from "react-loader-spinner";
 import css from "./CastInfo.module.css";
-import { getMovies } from "../../movies-api";
+import { getMovieCast } from "../../movies-api";
 
 export default function CastInfo() {
 	const [cast, setCast] = useState([]);
@@ -10,14 +10,12 @@ export default function CastInfo() {
 
 	const { moviesId } = useParams();
 
-	const url = `https://api.themoviedb.org/3/movie/${moviesId}/credits`;
-
 	useEffect(() => {
 		async function fetchMovies() {
 			try {
 				// setIsError(false);
 				setLoading(true);
-				const data = await getMovies(url);
+				const data = await getMovieCast(moviesId);
 				setCast(data.cast);
 			} catch {
 				console.log("Error");

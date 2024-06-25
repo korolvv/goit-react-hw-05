@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { getMovies } from "../../movies-api";
+import { getMovieDetails } from "../../movies-api";
 import {
 	Link,
 	NavLink,
@@ -28,19 +28,17 @@ export default function Movie() {
 
 	let genres = useRef("");
 
-	const url = `https://api.themoviedb.org/3/movie/${moviesId}?language=en-US`;
-
 	useEffect(() => {
 		async function fetchMovies() {
 			try {
 				setError(false);
-
-				const data = await getMovies(url);
+				const data = await getMovieDetails(moviesId);
 				setMovies(data);
 
 				dateRelease.current = `(${data.release_date.substring(0, 4)})`;
 				userScore.current = `User score: ${data.vote_average * 10}%`;
 				genres.current = getGenres(data);
+				console.log(movies.poster_path);
 			} catch {
 				console.log("Error");
 				setError(true);
@@ -48,7 +46,7 @@ export default function Movie() {
 		}
 
 		fetchMovies();
-	});
+	}, [moviesId]);
 
 	const getGenres = (data) => {
 		let arr = [];

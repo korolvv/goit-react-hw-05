@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Vortex } from "react-loader-spinner";
 import css from "./ReviewsInfo.module.css";
-import { getMovies } from "../../movies-api";
+import { getMovieReviews } from "../../movies-api";
 
 export default function ReviewsInfo() {
 	const [reviews, setReviews] = useState([]);
@@ -10,14 +10,12 @@ export default function ReviewsInfo() {
 
 	const { moviesId } = useParams();
 
-	const url = `https://api.themoviedb.org/3/movie/${moviesId}/reviews`;
-
 	useEffect(() => {
 		async function fetchMovies() {
 			try {
 				// setIsError(false);
 				setLoading(true);
-				const data = await getMovies(url);
+				const data = await getMovieReviews(moviesId);
 				setReviews(data.results);
 			} catch {
 				console.log("Error");
